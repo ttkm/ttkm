@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="300" viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        @keyframes staticNoise {
+            0%, 100% { opacity: 0.03; }
+            50% { opacity: 0.06; }
+        }
+        @keyframes terminalBlink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        @keyframes glitchText {
+            0%, 100% { transform: translate(0); filter: none; }
+            10% { transform: translate(-2px, 1px); filter: url(#redShift); }
+            20% { transform: translate(2px, -1px); filter: url(#blueShift); }
+            30% { transform: translate(0); filter: none; }
+            40% { transform: translate(1px, -1px); filter: url(#redShift); }
+            50% { transform: translate(-1px, 1px); filter: url(#blueShift); }
+            60% { transform: translate(0); filter: none; }
+            70% { transform: translate(2px, 1px); filter: url(#redShift); }
+            80% { transform: translate(-2px, -1px); filter: url(#blueShift); }
+            90% { transform: translate(0); filter: none; }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-150px); }
+            100% { transform: translateY(300px); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes terminalType {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        .static-noise { animation: staticNoise 0.2s steps(3) infinite; }
+        .terminal-cursor { animation: terminalBlink 1s step-end infinite; }
+        .glitch-text { animation: glitchText 5s step-end infinite; }
+        .scanline { animation: scanline 8s linear infinite; }
+        .fade-in { animation: fadeIn 2s ease-out forwards; }
+        .terminal-text { animation: terminalType 3s steps(40, end) forwards; }
+    </style>
+    
+    <defs>
+        <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" />
+            <feBlend mode="overlay" in2="SourceGraphic" result="noisy" />
+        </filter>
+        
+        <filter id="redShift">
+            <feColorMatrix type="matrix" values="1 0 0 0 0.1 0 0 0 0 -0.1 0 0 0 0 -0.1 0 0 0 1 0" />
+        </filter>
+        <filter id="blueShift">
+            <feColorMatrix type="matrix" values="0 0 0 0 -0.1 0 1 0 0 -0.1 0 0 1 0 0.1 0 0 0 1 0" />
+        </filter>
+        
+        <filter id="glitchDisplace">
+            <feTurbulence baseFrequency="0.05" numOctaves="2" type="fractalNoise" seed="0" />
+            <feDisplacementMap in="SourceGraphic" scale="10" />
+        </filter>
+        
+        <filter id="vhsDistortion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" stitchTiles="stitch" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </defs>
+    
+    <rect width="100%" height="100%" fill="#0a0a0a" />
+    
+    <rect class="static-noise" width="100%" height="100%" fill="#ffffff" opacity="0.03" filter="url(#noise)" />
+    
+    <rect class="scanline" x="0" y="0" width="100%" height="1" fill="#ffffff" opacity="0.1" />
+    
+    <rect x="50" y="30" width="1100" height="240" fill="none" stroke="#3a3a3a" stroke-width="1" />
+    <rect x="50" y="30" width="1100" height="25" fill="#1a1a1a" />
+    <circle cx="65" cy="42" r="5" fill="#cc0000" />
+    <circle cx="85" cy="42" r="5" fill="#cccc00" />
+    <circle cx="105" cy="42" r="5" fill="#00cc00" />
+    <text x="600" y="47" font-family="monospace" font-size="12" fill="#888888" text-anchor="middle">terminal - ttkm@localhost</text>
+    
+    <rect x="50" y="55" width="1100" height="215" fill="#0f0f0f" />
+    
+    <g class="fade-in">
+        <text x="70" y="85" font-family="monospace" font-size="12" fill="#00ff00">root@ttkm:~#</text>
+        <text x="160" y="85" font-family="monospace" font-size="12" fill="#ffffff">whoami</text>
+        <text x="70" y="105" font-family="monospace" font-size="12" fill="#ffffff">TTKM</text>
+        
+        <text x="70" y="135" font-family="monospace" font-size="12" fill="#00ff00">root@ttkm:~#</text>
+        <text x="160" y="135" font-family="monospace" font-size="12" fill="#ffffff">cat profile.txt</text>
+        
+        <g class="glitch-text">
+            <text x="600" y="175" font-family="'Space Grotesk', monospace" font-size="72" fill="#ffffff" text-anchor="middle" font-weight="bold">
+                TTKM
+            </text>
+            <text x="600" y="175" font-family="'Space Grotesk', monospace" font-size="72" fill="#ff0000" text-anchor="middle" font-weight="bold" opacity="0.3">
+                TTKM
+            </text>
+            <text x="600" y="175" font-family="'Space Grotesk', monospace" font-size="72" fill="#00ffff" text-anchor="middle" font-weight="bold" opacity="0.3">
+                TTKM
+            </text>
+        </g>
+        
+        <text x="600" y="220" font-family="monospace" font-size="36" fill="#ffffff" text-anchor="middle">
+            DEVELOPER
+        </text>
+        
+        <text x="70" y="250" font-family="monospace" font-size="12" fill="#00ff00">root@ttkm:~#</text>
+        <text x="160" y="250" font-family="monospace" font-size="12" fill="#ffffff" class="terminal-cursor">█</text>
+        
+        <text x="70" y="200" font-family="monospace" font-size="8" fill="#888888" opacity="0.3">192.168.1.1 | 10.0.0.1 | 172.16.0.1 | 127.0.0.1</text>
+        
+        <text x="800" y="200" font-family="monospace" font-size="8" fill="#888888" opacity="0.3">ssh -i key.pem user@server</text>
+    </g>
+    
+    <g opacity="0.1">
+        <text x="70" y="230" font-family="monospace" font-size="8" fill="#00ff00">01001000 01100101 01101100 01101100 01101111 00100000 01000110 01110010 01101001 01100101 01101110 01100100</text>
+    </g>
+    
+    <g opacity="0.05" transform="translate(950, 80) scale(0.15)">
+        <path d="M500,0 C350,0 250,100 250,250 C250,350 300,400 350,450 C400,500 450,550 500,600 C550,550 600,500 650,450 C700,400 750,350 750,250 C750,100 650,0 500,0 Z" fill="#ffffff" />
+        <ellipse cx="400" cy="250" rx="50" ry="70" fill="#0f0f0f" />
+        <ellipse cx="600" cy="250" rx="50" ry="70" fill="#0f0f0f" />
+        <path d="M350,350 C400,400 600,400 650,350" stroke="#0f0f0f" stroke-width="20" fill="none" />
+    </g>
+</svg> 
